@@ -8,20 +8,20 @@ namespace PetrovskayaMatrix
     class Matrix
     {
         double[,] matrix; //сама матрицы 
-        double determine = 1;
+        //double determine = 1;
         double norm = 0; 
 
         // конструктор
         public Matrix(int size)
         {
             matrix = new double[size, size];
-            determine = 0;
+            //determine = 0;
         }
 
         public Matrix(double[,] readMatrix)
         {
             matrix = (double[,])readMatrix.Clone();
-            Determine();
+            //Determine();
             NormCalc();
         }
         // конструктор
@@ -62,7 +62,8 @@ namespace PetrovskayaMatrix
         {
             norm = 0;
             foreach (var element in matrix)
-                norm += Math.Abs(element);
+                norm += Math.Abs(element)*Math.Abs(element);
+            norm = Math.Sqrt(norm);
             //for (int i = 0; i < matrix.GetLength(0); i++)
             //   for (int j = 0; j < matrix.GetLength(0); j++)
             //      norm += Math.Abs(matrix[i, j]);
@@ -126,38 +127,38 @@ namespace PetrovskayaMatrix
             for (int i = 0; i < matrix.GetLength(0); i++)
                 for (int j = 0; j < matrix.GetLength(0); j++)
                     multOnNum.matrix[i, j] = this.matrix[i, j] * num;
-            multOnNum.Determine();
+           // multOnNum.Determine();
             multOnNum.NormCalc();
             return multOnNum;
         }
 
-        private void Determine() // детерминант матрицы
-        {
-            double[,] tmp = (double[,])matrix.Clone();
-            for(int i = 0; i < tmp.GetLength(0); i++)
-            {
-                for(int j = 0; j < tmp.GetLength(0); j++)
-                {
+        //private void Determine() // детерминант матрицы
+        //{
+        //    double[,] tmp = (double[,])matrix.Clone();
+        //    for(int i = 0; i < tmp.GetLength(0); i++)
+        //    {
+        //        for(int j = 0; j < tmp.GetLength(0); j++)
+        //        {
 
-                }
-            }
-            double[,] helpMatr = new double[this.matrix.GetLength(0), this.matrix.GetLength(0)];
-            Array.Copy(matrix, helpMatr, this.matrix.Length);
-            double det = 1;
-            double b;
-            for (int i = 0; i < matrix.GetLength(0); i++) // цикл по строкам
-            {
-                for (int j = i + 1; j < matrix.GetLength(0); j++) // цикл по элементам строки начиная со следующего после диагонального
-                {
-                    if (helpMatr[i, i] == 0) { this.determine = 0; return; }
-                    b = helpMatr[j, i] / helpMatr[i, i];
-                    for (int k = i; k < matrix.GetLength(0); k++)
-                        helpMatr[j, k] -= helpMatr[i, k] * b;
-                }
-                det *= helpMatr[i, i];
-            }
-            this.determine = det;
-        }
+        //        }
+        //    }
+        //    double[,] helpMatr = new double[this.matrix.GetLength(0), this.matrix.GetLength(0)];
+        //    Array.Copy(matrix, helpMatr, this.matrix.Length);
+        //    double det = 1;
+        //    double b;
+        //    for (int i = 0; i < matrix.GetLength(0); i++) // цикл по строкам
+        //    {
+        //        for (int j = i + 1; j < matrix.GetLength(0); j++) // цикл по элементам строки начиная со следующего после диагонального
+        //        {
+        //            if (helpMatr[i, i] == 0) { this.determine = 0; return; }
+        //            b = helpMatr[j, i] / helpMatr[i, i];
+        //            for (int k = i; k < matrix.GetLength(0); k++)
+        //                helpMatr[j, k] -= helpMatr[i, k] * b;
+        //        }
+        //        det *= helpMatr[i, i];
+        //    }
+        //    this.determine = det;
+        //}
 
         public Matrix SumMatrixes(Matrix secondMatr)
         {
@@ -165,7 +166,7 @@ namespace PetrovskayaMatrix
             for (int i = 0; i < this.matrix.GetLength(0); i++)
                 for (int j = 0; j < secondMatr.matrix.GetLength(0); j++)
                     sumMatr.matrix[i, j] = this.matrix[i, j] + secondMatr.matrix[i, j];
-            sumMatr.Determine();
+          //  sumMatr.Determine();
             sumMatr.NormCalc();
             return sumMatr;
         }
@@ -179,7 +180,7 @@ namespace PetrovskayaMatrix
                     for (int k = 0; k < secondMatr.matrix.GetLength(0); ++k)
                         multMatr.matrix[i, j] += this.matrix[i, k] * secondMatr.matrix[k, j];
             });
-            multMatr.Determine();
+          //  multMatr.Determine();
             multMatr.NormCalc();
             return multMatr;
         }
@@ -198,8 +199,6 @@ namespace PetrovskayaMatrix
             Matrix M = new Matrix(this.matrix.GetLength(0));
             for (int i = 0; i < matrix.GetLength(0); i++)
                 M.matrix[i, i] = this.matrix[i, i];
-            M.Determine();
-            M.NormCalc();
             return M;
         }
 
@@ -212,20 +211,16 @@ namespace PetrovskayaMatrix
                     A1.matrix[i, j] = this.matrix[i, j];
             double tau = 2 / (this.norm + 1);
             Matrix M = D.SumMatrixes(A1.MultOnNum(tau));
-            M.Determine();
-            M.NormCalc();
             return M;
         }
 
-        public Matrix GenBMatrix() // матрица B которая нахрен вообще ???
+        public Matrix GenBMatrix() // матрица B 
         {
             Matrix B = new Matrix(this.matrix.GetLength(0));
             for (int i = 0; i < this.matrix.GetLength(0); i++)
                 for (int j = 0; j < this.matrix.GetLength(0); j++)
                     if (i != j) B.matrix[i, j] = -this.matrix[i, j] / this.matrix[i, i];
                     else B.matrix[i, j] = 0;
-            B.Determine();
-            B.NormCalc();
             return B;
         }
 
@@ -236,14 +231,6 @@ namespace PetrovskayaMatrix
                 for (int j = 0; j < i; j++)
                     A1.matrix[i, j] = this.matrix[i, j];
             return A1;
-        }
-
-        public bool Positive() // проверка на положительность всех элементов матрицы
-        {
-            for (int i = 0; i < matrix.GetLength(0); i++)
-                for (int j = 0; j < matrix.GetLength(0); j++)
-                    if (matrix[i, j] <= 0) return false;
-            return true;
         }
 
         public bool DiagDominate() // проверка на диагональное доминирование 
@@ -261,52 +248,6 @@ namespace PetrovskayaMatrix
             return true;
         }
 
-     /*   public Vector Iterate(Vector b)
-        {
-            double tau = 2 / (norm + 1);
-            Matrix A = this.Transpose().MultMatrix(this);
-            b = this.Transpose().MultOnVect(b);
-            Matrix M = A.GenMModified();
-            tau = 2 / (A.norm + 1);
-            Matrix M_1 = M.Inverse();
-            Vector x = new Vector(b.vector.Length);
-            Array.Copy(b.vector, x.vector, b.vector.Length);
-            Vector x1 = new Vector(b.vector.Length);
-            int i = 0;
-            while (i < 10000)
-            {
-                x1 = M_1.MultOnVect(M.SumMatrixes(A.MultOnNum(-tau)).MultOnVect(x).SumVector(b.MultOnNum(tau)));
-                Array.Copy(x1.vector, x.vector, x1.vector.Length);
-                i++;
-            }
-            return x1;
-        }
-
-        public Vector Relax(Vector b)// метод верхней релаксации
-        {
-            double tau = 2 / (this.norm + 1);
-            Matrix M = this.GenMUpRelax(); // матрица M для итерационной формулы для метода верхней релаксации
-            Vector tmp = this.MultOnNum(tau * (-1)).SumMatrixes(M).MultOnVect(b);
-      * 
-            double tau = 2 / (norm + 1);
-            Matrix A = this.Transpose().MultMatrix(this);
-            b = this.Transpose().MultOnVect(b);
-            Matrix A1 = A.GenA1Matrix();
-            Matrix M = A.GenMModified().SumMatrixes(A1.MultOnNum(tau));
-            tau = 2 / (A.norm + 1);
-            Matrix M_1 = M.Inverse();
-            Vector x = new Vector(b.vector.Length);
-            Array.Copy(b.vector, x.vector, b.vector.Length);
-            Vector x1 = new Vector(b.vector.Length);
-            int i = 0;
-            while (i < 10000)
-            {
-                x1 = M_1.MultOnVect(M.SumMatrixes(A.MultOnNum(-tau)).MultOnVect(x).SumVector(b.MultOnNum(tau)));
-                Array.Copy(x1.vector, x.vector, x1.vector.Length);
-                i++;
-            }
-            return x1;
-           
-        }*/
+     
     }
 }

@@ -47,9 +47,14 @@
             this.label1 = new System.Windows.Forms.Label();
             this.labelTime = new System.Windows.Forms.Label();
             this.labelCountIterations = new System.Windows.Forms.Label();
+            this.buttonCompare = new System.Windows.Forms.Button();
+            this.performanceCounter1 = new System.Diagnostics.PerformanceCounter();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.matrixForm)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.vectorForm)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.resForm)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.performanceCounter1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // matrixForm
@@ -59,7 +64,7 @@
             this.matrixForm.BackgroundColor = System.Drawing.SystemColors.Control;
             this.matrixForm.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.matrixForm.ColumnHeadersVisible = false;
-            this.matrixForm.Location = new System.Drawing.Point(41, 314);
+            this.matrixForm.Location = new System.Drawing.Point(60, 228);
             this.matrixForm.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.matrixForm.Name = "matrixForm";
             this.matrixForm.RowHeadersVisible = false;
@@ -69,7 +74,7 @@
             // 
             // buttonCreate
             // 
-            this.buttonCreate.Location = new System.Drawing.Point(1389, 452);
+            this.buttonCreate.Location = new System.Drawing.Point(1402, 324);
             this.buttonCreate.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.buttonCreate.Name = "buttonCreate";
             this.buttonCreate.Size = new System.Drawing.Size(150, 36);
@@ -80,7 +85,7 @@
             // 
             // sizeBox
             // 
-            this.sizeBox.Location = new System.Drawing.Point(1652, 306);
+            this.sizeBox.Location = new System.Drawing.Point(1671, 220);
             this.sizeBox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.sizeBox.MaxLength = 5;
             this.sizeBox.Name = "sizeBox";
@@ -95,18 +100,18 @@
             this.vectorForm.BackgroundColor = System.Drawing.SystemColors.Control;
             this.vectorForm.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.vectorForm.ColumnHeadersVisible = false;
-            this.vectorForm.Location = new System.Drawing.Point(864, 314);
+            this.vectorForm.Location = new System.Drawing.Point(883, 228);
             this.vectorForm.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.vectorForm.Name = "vectorForm";
             this.vectorForm.RowHeadersVisible = false;
             this.vectorForm.RowTemplate.Height = 24;
-            this.vectorForm.Size = new System.Drawing.Size(179, 781);
+            this.vectorForm.Size = new System.Drawing.Size(139, 781);
             this.vectorForm.TabIndex = 3;
             // 
             // writeBox
             // 
             this.writeBox.AutoSize = true;
-            this.writeBox.Location = new System.Drawing.Point(1384, 350);
+            this.writeBox.Location = new System.Drawing.Point(1403, 264);
             this.writeBox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.writeBox.Name = "writeBox";
             this.writeBox.Size = new System.Drawing.Size(150, 29);
@@ -119,17 +124,17 @@
             this.resForm.BackgroundColor = System.Drawing.SystemColors.Control;
             this.resForm.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.resForm.ColumnHeadersVisible = false;
-            this.resForm.Location = new System.Drawing.Point(1153, 314);
+            this.resForm.Location = new System.Drawing.Point(1103, 228);
             this.resForm.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.resForm.Name = "resForm";
             this.resForm.RowHeadersVisible = false;
             this.resForm.RowTemplate.Height = 24;
-            this.resForm.Size = new System.Drawing.Size(160, 780);
+            this.resForm.Size = new System.Drawing.Size(242, 780);
             this.resForm.TabIndex = 6;
             // 
             // buttonSolve
             // 
-            this.buttonSolve.Location = new System.Drawing.Point(1398, 739);
+            this.buttonSolve.Location = new System.Drawing.Point(1408, 633);
             this.buttonSolve.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.buttonSolve.Name = "buttonSolve";
             this.buttonSolve.Size = new System.Drawing.Size(150, 53);
@@ -141,7 +146,7 @@
             // radioButtonIteration
             // 
             this.radioButtonIteration.AutoSize = true;
-            this.radioButtonIteration.Location = new System.Drawing.Point(1394, 638);
+            this.radioButtonIteration.Location = new System.Drawing.Point(1408, 518);
             this.radioButtonIteration.Name = "radioButtonIteration";
             this.radioButtonIteration.Size = new System.Drawing.Size(502, 29);
             this.radioButtonIteration.TabIndex = 11;
@@ -152,7 +157,7 @@
             // radioButtonRelax
             // 
             this.radioButtonRelax.AutoSize = true;
-            this.radioButtonRelax.Location = new System.Drawing.Point(1394, 688);
+            this.radioButtonRelax.Location = new System.Drawing.Point(1408, 575);
             this.radioButtonRelax.Name = "radioButtonRelax";
             this.radioButtonRelax.Size = new System.Drawing.Size(319, 29);
             this.radioButtonRelax.TabIndex = 12;
@@ -162,7 +167,7 @@
             // 
             // textBoxEps
             // 
-            this.textBoxEps.Location = new System.Drawing.Point(1584, 521);
+            this.textBoxEps.Location = new System.Drawing.Point(1584, 396);
             this.textBoxEps.Name = "textBoxEps";
             this.textBoxEps.Size = new System.Drawing.Size(157, 31);
             this.textBoxEps.TabIndex = 13;
@@ -171,7 +176,7 @@
             // labelEps
             // 
             this.labelEps.AutoSize = true;
-            this.labelEps.Location = new System.Drawing.Point(1389, 521);
+            this.labelEps.Location = new System.Drawing.Point(1403, 399);
             this.labelEps.Name = "labelEps";
             this.labelEps.Size = new System.Drawing.Size(150, 25);
             this.labelEps.TabIndex = 14;
@@ -180,7 +185,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(488, 44);
+            this.label2.Location = new System.Drawing.Point(801, 62);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(250, 25);
             this.label2.TabIndex = 15;
@@ -189,7 +194,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(208, 237);
+            this.label3.Location = new System.Drawing.Point(227, 151);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(120, 25);
             this.label3.TabIndex = 16;
@@ -198,7 +203,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(859, 242);
+            this.label4.Location = new System.Drawing.Point(909, 151);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(101, 25);
             this.label4.TabIndex = 17;
@@ -207,7 +212,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(1182, 245);
+            this.label5.Location = new System.Drawing.Point(1165, 151);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(100, 25);
             this.label5.TabIndex = 18;
@@ -216,7 +221,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(1378, 309);
+            this.label6.Location = new System.Drawing.Point(1397, 223);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(258, 25);
             this.label6.TabIndex = 19;
@@ -225,7 +230,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(1393, 586);
+            this.label1.Location = new System.Drawing.Point(1403, 463);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(170, 25);
             this.label1.TabIndex = 20;
@@ -234,7 +239,7 @@
             // labelTime
             // 
             this.labelTime.AutoSize = true;
-            this.labelTime.Location = new System.Drawing.Point(1405, 831);
+            this.labelTime.Location = new System.Drawing.Point(1403, 730);
             this.labelTime.Name = "labelTime";
             this.labelTime.Size = new System.Drawing.Size(335, 25);
             this.labelTime.TabIndex = 21;
@@ -244,18 +249,39 @@
             // labelCountIterations
             // 
             this.labelCountIterations.AutoSize = true;
-            this.labelCountIterations.Location = new System.Drawing.Point(1410, 889);
+            this.labelCountIterations.Location = new System.Drawing.Point(1403, 787);
             this.labelCountIterations.Name = "labelCountIterations";
             this.labelCountIterations.Size = new System.Drawing.Size(173, 25);
             this.labelCountIterations.TabIndex = 22;
             this.labelCountIterations.Text = "Число итераций";
             this.labelCountIterations.Visible = false;
             // 
+            // buttonCompare
+            // 
+            this.buttonCompare.Location = new System.Drawing.Point(1631, 633);
+            this.buttonCompare.Name = "buttonCompare";
+            this.buttonCompare.Size = new System.Drawing.Size(258, 53);
+            this.buttonCompare.TabIndex = 23;
+            this.buttonCompare.Text = "Сравнительный анализ";
+            this.buttonCompare.UseVisualStyleBackColor = true;
+            this.buttonCompare.Click += new System.EventHandler(this.buttonCompare_Click);
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Location = new System.Drawing.Point(75, 1111);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(149, 187);
+            this.pictureBox1.TabIndex = 24;
+            this.pictureBox1.TabStop = false;
+            this.pictureBox1.Paint += new System.Windows.Forms.PaintEventHandler(this.pictureBox1_Paint);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1969, 1179);
+            this.ClientSize = new System.Drawing.Size(2674, 1429);
+            this.Controls.Add(this.pictureBox1);
+            this.Controls.Add(this.buttonCompare);
             this.Controls.Add(this.labelCountIterations);
             this.Controls.Add(this.labelTime);
             this.Controls.Add(this.label1);
@@ -282,6 +308,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.matrixForm)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.vectorForm)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.resForm)).EndInit();
+           
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -308,6 +336,9 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label labelTime;
         private System.Windows.Forms.Label labelCountIterations;
+        private System.Windows.Forms.Button buttonCompare;
+        private System.Diagnostics.PerformanceCounter performanceCounter1;
+        private System.Windows.Forms.PictureBox pictureBox1;
     }
 }
 

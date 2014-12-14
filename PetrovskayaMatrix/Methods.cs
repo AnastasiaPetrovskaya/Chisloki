@@ -20,9 +20,10 @@ namespace PetrovskayaMatrix
             countIterations = 0;
             Vector X1 = new Vector(b.VectorGetSet);
             Vector X2 = X1;
+            Matrix inv = M.Inverse();
             while (countIterations <= 1000000) // i - максимально допустимое количество итераций
             {
-                X2 = M.Inverse().MultOnVect(M.SumMatrixes(A.MultOnNum(-tau)).MultOnVect(X1).SumVector(b.MultOnNum(tau)));
+                X2 = inv.MultOnVect(M.SumMatrixes(A.MultOnNum(-tau)).MultOnVect(X1).SumVector(b.MultOnNum(tau)));
                 // проверка разности межну решением на предыдущей итерации и на текущей  
                 double delta = 0;
                 for(int j = 0; j < X2.VectorGetSet.GetLength(0); j++)
