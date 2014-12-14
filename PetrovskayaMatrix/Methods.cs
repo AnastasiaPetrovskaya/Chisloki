@@ -13,17 +13,16 @@ namespace PetrovskayaMatrix
         {
             b = A.Transpose().MultOnVect(b);
             A = A.Transpose().MultMatrix(A);
-            //double tau = 2 / (A.Norm + 1);
-
+            double tau = 2 / (A.Norm + 1);
             Matrix M = A.GenMUpRelax();
-            double tau = Math.Abs((1 - M.Norm) / A.Norm);
+            //double tau = Math.Abs((1 - M.Norm) / A.Norm);
             Matrix Tmp = M.MultMatrix(A.MultOnNum(tau * (-1)));
             countIterations = 0;
             Vector X1 = new Vector(b.VectorGetSet);
             Vector X2 = X1;
             while (countIterations <= 1000000) // i - максимально допустимое количество итераций
             {
-                X2 = M.Inverse().MultOnVect(Tmp.MultOnVect(X1).SumVector(b.MultOnNum(tau)));
+                X2 = M.Inverse().MultOnVect(M.SumMatrixes(A.MultOnNum(-tau)).MultOnVect(X1).SumVector(b.MultOnNum(tau)));
                 // проверка разности межну решением на предыдущей итерации и на текущей  
                 double delta = 0;
                 for(int j = 0; j < X2.VectorGetSet.GetLength(0); j++)
@@ -62,12 +61,10 @@ namespace PetrovskayaMatrix
                 //X2 = inv.MultOnVect(A.MultOnVect(X1).MultOnNum(-1).SumVector(b)).MultOnNum(tau).SumVector(X1);
                 X2 = inv.MultOnVect(D.SumMatrixes(A.MultOnNum(-tau)).MultOnVect(X1).SumVector(b.MultOnNum(tau)));
                 // проверка разности межну решением на предыдущей итерации и на текущей  
-                // проверка разности межну решением на предыдущей итерации и на текущей  
                 double delta = 0;
                 for (int j = 0; j < X2.VectorGetSet.GetLength(0); j++)
                 {
                     delta += (X2.VectorGetSet[j] - X1.VectorGetSet[j]) * (X2.VectorGetSet[j] - X1.VectorGetSet[j]);
-
                 }
                 if (Math.Sqrt(delta) < epsilon) // если заданная точность достигнута
                 {
