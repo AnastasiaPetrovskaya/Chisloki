@@ -115,7 +115,7 @@ namespace PetrovskayaMatrix
                         if ((i != k) && (j == k)) inverse.matrix[i, j] = helper.matrix[i, k] / helper.matrix[k, k];
                         if ((i != k) && (j != k)) inverse.matrix[i, j] = helper.matrix[i, j] - helper.matrix[k, j] * helper.matrix[i, k] / helper.matrix[k, k];
                     }
-                //Array.Copy(inverse.matrix, helper.matrix, inverse.matrix.Length);
+                Array.Copy(inverse.matrix, helper.matrix, inverse.matrix.Length);
             }
             return inverse;
         }
