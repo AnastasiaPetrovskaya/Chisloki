@@ -185,7 +185,21 @@ namespace PetrovskayaMatrix
                     scalMultiply += E.VectorGetSet[j] * tmp.VectorGetSet[j];
                 }
                 if (scalMultiply > 0)
-                    flag = true;
+                    //flag = true;
+                
+                {
+                    double fl=0;
+                    for (int i = 0; i<size ;i++)
+                    {
+                        for (int j = 0; j < size; j++)
+                        {
+                            if (!(j == i))
+                                fl += A.MatrixGetSet[i, j] * A.MatrixGetSet[i, j] / (A.MatrixGetSet[i, i] * A.MatrixGetSet[i, i]);
+                        }
+                    }
+                    if (fl < 1)
+                        flag = true;
+                }
             } while (flag == false);
             return A;
         }
@@ -206,8 +220,10 @@ namespace PetrovskayaMatrix
 
         private void buttonCompare_Click(object sender, EventArgs e) // сравнить два метода
         {
-            double[,] tmCnt = new double[11,10];
-            int[,] itCnt = new int[11, 10];
+            double[,] tmCntIt = new double[11,10];
+            int[,] itCntIt = new int[11, 10];
+            double[,] tmCntRel = new double[11, 10];
+            int[,] itCntRel = new int[11, 10];
             double eps;
             try
             {
@@ -257,8 +273,26 @@ namespace PetrovskayaMatrix
                     TimeSpan ts = swatch.Elapsed;
                     double tm = ts.TotalMilliseconds;
                     int it = countIterations;
-                    tmCnt[i - 3, j - 1] = Math.Round(tm,4);
-                    itCnt[i - 3, j - 1] = it;
+                    tmCntRel[i - 3, j - 1] = Math.Round(tm,4);
+                    itCntRel[i - 3, j - 1] = it;
+                    swatch.Restart();
+                    try
+                    {
+                        res = Methods.Relax(A, b, out countIterations, eps);
+                    }
+                    catch (Exception err)
+                    {
+                        System.Windows.Forms.MessageBox.Show(err.Message, "Ошибка", System.Windows.Forms.MessageBoxButtons.OK);
+                        return;
+                    }
+                    swatch.Stop();
+                    ts = swatch.Elapsed;
+                    tm = ts.TotalMilliseconds;
+                    it = countIterations;
+                    tmCntIt[i - 3, j - 1] = Math.Round(tm, 4);
+                    itCntIt[i - 3, j - 1] = it;
+
+
                 }
             }
             // отрисовка графиков в Excel
@@ -268,13 +302,13 @@ namespace PetrovskayaMatrix
             application.Workbooks.Add(Type.Missing);
             Worksheet sheet = (Worksheet)application.Sheets[1];
 
-
+            // время(релаксации)
             for (int i = 1; i <= 11; i++)
             {
                 double pointTm = 0;
                 for (int j = 0; j <= 9; j++ )
                 {
-                    pointTm += tmCnt[i-1, j];
+                    pointTm += tmCntRel[i-1, j];
                 }
                 pointTm = pointTm / 10;
                 sheet.Cells[i, 1] = i;
@@ -293,13 +327,13 @@ namespace PetrovskayaMatrix
             chart.ChartType = XlChartType.xlXYScatterSmooth;
             
             application.Visible = true;
-            // итерации
+            // итерации(релаксации)
             for (int i = 1; i <= 11; i++)
             {
                 double pointTm = 0;
                 for (int j = 0; j <= 9; j++)
                 {
-                    pointTm += itCnt[i - 1, j];
+                    pointTm += itCntRel[i - 1, j];
                 }
                 pointTm = pointTm / 10;
                 sheet.Cells[i, "L"] = i;
@@ -314,8 +348,12 @@ namespace PetrovskayaMatrix
             series2.XValues = sheet.get_Range("L1", "L11");
             series2.Values = sheet.get_Range("M1", "M11");
             series2.Name = "Зависимость количества итераций от размерности матрицы";
-
             chart2.ChartType = XlChartType.xlXYScatterSmooth;
+
+
+
+
+
 
             application.Visible = true;
 

@@ -59,8 +59,8 @@ namespace PetrovskayaMatrix
             Vector X2 = new Vector(X1.VectorGetSet);
             
             double tau = 1;//2 / (A.Norm * 1.1);
-            //double n = D.SumMatrixes(A.MultOnNum(tau * (-1))).Norm;
-            //double tau = Math.Abs((1 - D.Norm) / A.Norm);
+            
+            //double tau = Math.Abs(( D.Norm - 1) / A.Norm);
             double n = D.SumMatrixes(A.MultOnNum(tau * (-1))).Norm;
             Matrix inv = D.Inverse();
             while (countIterations <= 1000000) // i - максимально допустимое количество итераций
