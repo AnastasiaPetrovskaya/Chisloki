@@ -261,7 +261,7 @@ namespace PetrovskayaMatrix
                     itCnt[i - 3, j - 1] = it;
                 }
             }
-            // отрисовка графиков
+            // отрисовка графиков в Excel
 
 
             Microsoft.Office.Interop.Excel.Application application = new Microsoft.Office.Interop.Excel.Application();
@@ -280,15 +280,43 @@ namespace PetrovskayaMatrix
                 sheet.Cells[i, 1] = i;
                 sheet.Cells[i, 2] = pointTm;
             }
-
             ChartObjects xlCharts = (ChartObjects)sheet.ChartObjects(Type.Missing);
             ChartObject myChart = (ChartObject)xlCharts.Add(110, 0, 350, 250);
+            myChart.Name = "Зависимость времени от размерности матрицы";
             Chart chart = myChart.Chart;
             SeriesCollection seriesCollection = (SeriesCollection)chart.SeriesCollection(Type.Missing);
             Series series = seriesCollection.NewSeries();
-            series.XValues = sheet.get_Range("A1", "A10");
-            series.Values = sheet.get_Range("B1", "B10");
+            series.XValues = sheet.get_Range("A1", "A11");
+            series.Values = sheet.get_Range("B1", "B11");
+            series.Name = "Зависимость времени от размерности матрицы";
+            
             chart.ChartType = XlChartType.xlXYScatterSmooth;
+            
+            application.Visible = true;
+            // итерации
+            for (int i = 1; i <= 11; i++)
+            {
+                double pointTm = 0;
+                for (int j = 0; j <= 9; j++)
+                {
+                    pointTm += itCnt[i - 1, j];
+                }
+                pointTm = pointTm / 10;
+                sheet.Cells[i, "L"] = i;
+                sheet.Cells[i, "M"] = pointTm;
+            }
+            //ChartObjects xlCharts = (ChartObjects)sheet.ChartObjects(Type.Missing);
+            ChartObject myChart2 = (ChartObject)xlCharts.Add(680, 0, 350, 250);
+            myChart2.Name = "Зависимость времени от размерности матрицы";
+            Chart chart2 = myChart2.Chart;
+            SeriesCollection seriesCollection2 = (SeriesCollection)chart2.SeriesCollection(Type.Missing);
+            Series series2 = seriesCollection2.NewSeries();
+            series2.XValues = sheet.get_Range("L1", "L11");
+            series2.Values = sheet.get_Range("M1", "M11");
+            series2.Name = "Зависимость количества итераций от размерности матрицы";
+
+            chart2.ChartType = XlChartType.xlXYScatterSmooth;
+
             application.Visible = true;
 
             //System.Drawing.Pen myPen;
