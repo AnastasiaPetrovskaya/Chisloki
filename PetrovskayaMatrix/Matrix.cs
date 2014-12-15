@@ -210,6 +210,7 @@ namespace PetrovskayaMatrix
                 for (int j = 0; j < i; j++)
                     A1.matrix[i, j] = this.matrix[i, j];
             double tau = 2 / (this.norm + 1);
+            //double tau = Math.Abs((1 - M.Norm) / A.Norm);
             Matrix M = D.SumMatrixes(A1.MultOnNum(tau));
             return M;
         }
@@ -248,6 +249,10 @@ namespace PetrovskayaMatrix
             return true;
         }
 
+        //public double CalcTauD(Matrix A)
+        //{
+
+        //}
      
     }
 }

@@ -13,11 +13,14 @@ namespace PetrovskayaMatrix
         {
             b = A.Transpose().MultOnVect(b);
             A = A.Transpose().MultMatrix(A);
-            double tau = 2 / (A.Norm + 1);
+            //double tau = 2 / (A.Norm * 1.1);
             Matrix M = A.GenMUpRelax();
-            //double tau = Math.Abs((1 - M.Norm) / A.Norm);
+            //double n = M.SumMatrixes(A.MultOnNum(tau * (-1))).Norm;
+            double tau = Math.Abs((1 - M.Norm) / A.Norm) ;
+            double n = M.SumMatrixes(A.MultOnNum(tau * (-1))).Norm;
             Matrix Tmp = M.MultMatrix(A.MultOnNum(tau * (-1)));
             countIterations = 0;
+            //Matrix M = A.GenMUpRelax();
             Vector X1 = new Vector(b.VectorGetSet);
             Vector X2 = X1;
             Matrix inv = M.Inverse();
@@ -54,8 +57,11 @@ namespace PetrovskayaMatrix
             Matrix D = A.GenDModified();
             Vector X1 = new Vector(b.VectorGetSet);
             Vector X2 = new Vector(X1.VectorGetSet);
-            double tau =  2 / (A.Norm + 1);
+            
+            double tau = 1;//2 / (A.Norm * 1.1);
+            //double n = D.SumMatrixes(A.MultOnNum(tau * (-1))).Norm;
             //double tau = Math.Abs((1 - D.Norm) / A.Norm);
+            double n = D.SumMatrixes(A.MultOnNum(tau * (-1))).Norm;
             Matrix inv = D.Inverse();
             while (countIterations <= 1000000) // i - максимально допустимое количество итераций
             {
