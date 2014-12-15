@@ -204,6 +204,7 @@ namespace PetrovskayaMatrix
 
         public Matrix GenMUpRelax() // матрица M для метода верхней релаксации
         {
+            
             Matrix D = GenDModified();
             Matrix A1 = new Matrix(this.matrix.GetLength(0));
             for (int i = 1; i < this.matrix.GetLength(0) - 1; i++)

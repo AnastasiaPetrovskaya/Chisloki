@@ -16,7 +16,7 @@ namespace PetrovskayaMatrix
             //double tau = 2 / (A.Norm * 1.1);
             Matrix M = A.GenMUpRelax();
             //double n = M.SumMatrixes(A.MultOnNum(tau * (-1))).Norm;
-            double tau = Math.Abs((1 - M.Norm) / A.Norm) ;
+            double tau = (Math.Abs((1 - M.Norm) / A.Norm))*0.9;
             double n = M.SumMatrixes(A.MultOnNum(tau * (-1))).Norm;
             Matrix Tmp = M.MultMatrix(A.MultOnNum(tau * (-1)));
             countIterations = 0;
