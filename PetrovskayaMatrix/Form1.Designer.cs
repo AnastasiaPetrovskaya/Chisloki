@@ -273,13 +273,13 @@
             this.pictureBox1.Size = new System.Drawing.Size(149, 187);
             this.pictureBox1.TabIndex = 24;
             this.pictureBox1.TabStop = false;
-            
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(2674, 1429);
+            this.AutoSize = true;
+            this.ClientSize = new System.Drawing.Size(2016, 1235);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.buttonCompare);
             this.Controls.Add(this.labelCountIterations);
@@ -308,7 +308,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.matrixForm)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.vectorForm)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.resForm)).EndInit();
-           
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

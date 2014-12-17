@@ -5,7 +5,7 @@ VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PetrovskayaMatrix", "PetrovskayaMatrix\PetrovskayaMatrix.csproj", "{2AD8BD30-E374-46E0-962C-D5C10EABA3AB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestProject1", "UnitTestProject1\UnitTestProject1.csproj", "{EF5D20E7-C75F-477E-9DFB-91D96A4D7A09}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfApplication1", "WpfApplication1\WpfApplication1.csproj", "{CC4AD37D-6C02-45BD-BD55-B914CA41CBFE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +17,10 @@ Global
 		{2AD8BD30-E374-46E0-962C-D5C10EABA3AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2AD8BD30-E374-46E0-962C-D5C10EABA3AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2AD8BD30-E374-46E0-962C-D5C10EABA3AB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{EF5D20E7-C75F-477E-9DFB-91D96A4D7A09}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EF5D20E7-C75F-477E-9DFB-91D96A4D7A09}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EF5D20E7-C75F-477E-9DFB-91D96A4D7A09}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EF5D20E7-C75F-477E-9DFB-91D96A4D7A09}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CC4AD37D-6C02-45BD-BD55-B914CA41CBFE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC4AD37D-6C02-45BD-BD55-B914CA41CBFE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC4AD37D-6C02-45BD-BD55-B914CA41CBFE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC4AD37D-6C02-45BD-BD55-B914CA41CBFE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

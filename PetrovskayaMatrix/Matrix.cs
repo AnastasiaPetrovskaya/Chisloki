@@ -37,26 +37,7 @@ namespace PetrovskayaMatrix
             get { return norm; }
         }
 
-       /* public Matrix(int size1, int size2, int disp, bool symetric)
-        {
-            matrix = new double[size1,size2];
-            matrix.GetLength(0) = size1;
-            matrix.GetLength(0) = size2;
-            Random x = new Random();
-            ResizeArray<double>(ref matrix, matrix.GetLength(0), matrix.GetLength(0));
-            if (symetric)
-                for (int i = 0; i < matrix.GetLength(0); i++)
-                    for (int j = 0; j < matrix.GetLength(0); j++)
-                        matrix[i, j] = x.Next(-disp + 1, disp);
-            else
-                for (int i = 0; i < matrix.GetLength(0); i++)
-                    for (int j = i; j < matrix.GetLength(0); j++)
-                    {
-                        matrix[i, j] = x.Next(-disp + 1, disp);
-                        matrix[j, i] = matrix[i, j];
-                    }
-            determine = Determine();
-        }*/
+       
 
         private void NormCalc()//считаем норму матрицы
         {

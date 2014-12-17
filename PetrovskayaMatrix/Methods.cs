@@ -6,6 +6,32 @@ using System.Threading.Tasks;
 
 namespace PetrovskayaMatrix
 {
+    public class MethodStatistic
+    {
+        private int iterationsCount;
+        private double time;
+        private Vector delta;
+        //свойства
+        public int IterationsCount
+        {
+            get { return this.iterationsCount; }
+        }
+        public double Time
+        {
+            get { return time;}
+        }
+        public Vector Delta
+        {
+            get { return delta; }
+        }
+        //конструктор
+        public MethodStatistic(int iterationsCount, double tm, Vector dl)
+        {
+            this.iterationsCount = iterationsCount;
+            this.time = tm;
+            this.delta = 
+        }
+    }
     class Methods
     {
         // метод верхней релаксации

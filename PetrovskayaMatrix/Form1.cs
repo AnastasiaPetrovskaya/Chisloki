@@ -88,7 +88,7 @@ namespace PetrovskayaMatrix
             if (radioButtonIteration.Checked)// если пользователь выбрал модифицированный метод простой итерации
             {
                 System.Diagnostics.Stopwatch swatch = new System.Diagnostics.Stopwatch();
-                swatch.Start();
+                swatch.Restart();
                 Vector res;
                 try 
                 {
@@ -106,9 +106,7 @@ namespace PetrovskayaMatrix
                     resForm[0, i].Value = res.VectorGetSet[i];
                 }
                 TimeSpan ts = swatch.Elapsed;
-                string elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:0000}",
-                        ts.Hours, ts.Minutes, ts.Seconds,
-                        ts.Milliseconds / 10);
+                string elapsedTime = ts.TotalMilliseconds.ToString();
                 labelTime.Text = "Время, затраченное на решение: " + elapsedTime;
                 labelCountIterations.Text = "Количество выполненых итераций: " + countIterations.ToString();
                 labelTime.Visible = true;
@@ -117,18 +115,19 @@ namespace PetrovskayaMatrix
             else if (radioButtonRelax.Checked) // если пользователь выбрал метод верхних релаксаций
             {
                 System.Diagnostics.Stopwatch swatch = new System.Diagnostics.Stopwatch();
-                swatch.Start();
                 Vector res;
                 try
                 {
+                    swatch.Restart();
                     res = Methods.Relax(matr1, vect1, out countIterations, eps);
+                    swatch.Stop();
                 }
                 catch (Exception err)
                 {
                     System.Windows.Forms.MessageBox.Show(err.Message, "Ошибка", System.Windows.Forms.MessageBoxButtons.OK);
                     return;
                 }
-                swatch.Stop();
+                GC.Collect();
                 TimeSpan ts = swatch.Elapsed;
                 resForm.RowCount = vect1.VectorGetSet.GetLength(0);
                 for (int i = 0; i < vect1.VectorGetSet.GetLength(0); i++)// заполнение результата на форме
@@ -220,10 +219,10 @@ namespace PetrovskayaMatrix
 
         private void buttonCompare_Click(object sender, EventArgs e) // сравнить два метода
         {
-            double[,] tmCntIt = new double[11,10];
-            int[,] itCntIt = new int[11, 10];
-            double[,] tmCntRel = new double[11, 10];
-            int[,] itCntRel = new int[11, 10];
+            double[,] tmCntIt = new double[12,10];
+            int[,] itCntIt = new int[12, 10];
+            double[,] tmCntRel = new double[12, 10];
+            int[,] itCntRel = new int[12, 10];
             double eps;
             try
             {
@@ -235,7 +234,7 @@ namespace PetrovskayaMatrix
                     "Ошибка", System.Windows.Forms.MessageBoxButtons.OK);
                 return;
             }
-            for (int i = 3; i < 14 ; i++)// цикл по размерностям матриц
+            for (int i = 2; i < 14 ; i++)// цикл по размерностям матриц
             {
                 for (int j = 1; j< 11; j++) // цикл по матрицам (по 10 матриц) каждой размерности
                 {
@@ -245,20 +244,6 @@ namespace PetrovskayaMatrix
                     int countIterations = 0;
                     eps = Convert.ToDouble(textBoxEps.Text);
                     System.Diagnostics.Stopwatch swatch = new System.Diagnostics.Stopwatch();
-                    swatch.Start();
-                    if (j == 1 && i == 3)
-                    {
-                        try
-                        {
-                            res = Methods.Relax(A, b, out countIterations, eps);
-                        }
-                        catch (Exception err)
-                        {
-                            System.Windows.Forms.MessageBox.Show(err.Message, "Ошибка", System.Windows.Forms.MessageBoxButtons.OK);
-                            return;
-                        }
-                    }
-                    swatch.Stop();
                     countIterations = 0;
                     swatch.Restart();
                     try
@@ -267,15 +252,17 @@ namespace PetrovskayaMatrix
                     }
                     catch (Exception err)
                     {
-                        System.Windows.Forms.MessageBox.Show(err.Message, "Ошибка", System.Windows.Forms.MessageBoxButtons.OK);
-                        return;
+                        j--;
+                        //System.Windows.Forms.MessageBox.Show(err.Message, "Ошибка", System.Windows.Forms.MessageBoxButtons.OK);
+                        //return;
+                        continue;
                     }
                     swatch.Stop();
                     TimeSpan ts = swatch.Elapsed;
                     double tm = ts.TotalMilliseconds;
                     int it = countIterations;
-                    tmCntRel[i - 3, j - 1] = Math.Round(tm,4);
-                    itCntRel[i - 3, j - 1] = it;
+                    tmCntRel[i - 2, j - 1] = Math.Round(tm,4);
+                    itCntRel[i - 2, j - 1] = it;
                     countIterations=0;
                     swatch.Restart();
                     try
@@ -284,17 +271,17 @@ namespace PetrovskayaMatrix
                     }
                     catch (Exception err)
                     {
-                        System.Windows.Forms.MessageBox.Show(err.Message, "Ошибка", System.Windows.Forms.MessageBoxButtons.OK);
-                        return;
+                        j--;
+                        //System.Windows.Forms.MessageBox.Show(err.Message, "Ошибка", System.Windows.Forms.MessageBoxButtons.OK);
+                        //return;
+                        continue;
                     }
                     swatch.Stop();
                     ts = swatch.Elapsed;
                     tm = ts.TotalMilliseconds;
                     it = countIterations;
-                    tmCntIt[i - 3, j - 1] = Math.Round(tm, 4);
-                    itCntIt[i - 3, j - 1] = it;
-
-
+                    tmCntIt[i - 2, j - 1] = Math.Round(tm, 4);
+                    itCntIt[i - 2, j - 1] = it;
                 }
             }
             // отрисовка графиков в Excel
@@ -310,10 +297,10 @@ namespace PetrovskayaMatrix
                 double pointTm = 0;
                 for (int j = 0; j <= 9; j++ )
                 {
-                    pointTm += tmCntRel[i-1, j];
+                    pointTm += tmCntRel[i, j];
                 }
                 pointTm = pointTm / 10;
-                sheet.Cells[i, 1] = i;
+                sheet.Cells[i, 1] = i+2;
                 sheet.Cells[i, 2] = pointTm;
             }
             ChartObjects xlCharts = (ChartObjects)sheet.ChartObjects(Type.Missing);
@@ -324,21 +311,18 @@ namespace PetrovskayaMatrix
             Series series = seriesCollection.NewSeries();
             series.XValues = sheet.get_Range("A1", "A11");
             series.Values = sheet.get_Range("B1", "B11");
-            series.Name = "Зависимость времени от размерности матрицы";
-            
+            series.Name = "Зависимость времени от размерности матрицы (метод верхней релаксации)";
             chart.ChartType = XlChartType.xlXYScatterSmooth;
-            
-            
             // итерации(релаксации)
             for (int i = 1; i <= 11; i++)
             {
                 double pointTm = 0;
                 for (int j = 0; j <= 9; j++)
                 {
-                    pointTm += itCntRel[i - 1, j];
+                    pointTm += itCntRel[i , j];
                 }
                 pointTm = pointTm / 10;
-                sheet.Cells[i, "L"] = i;
+                sheet.Cells[i, "L"] = i+2;
                 sheet.Cells[i, "M"] = pointTm;
             }
             //ChartObjects xlCharts = (ChartObjects)sheet.ChartObjects(Type.Missing);
@@ -349,7 +333,7 @@ namespace PetrovskayaMatrix
             Series series2 = seriesCollection2.NewSeries();
             series2.XValues = sheet.get_Range("L1", "L11");
             series2.Values = sheet.get_Range("M1", "M11");
-            series2.Name = "Зависимость количества итераций от размерности матрицы";
+            series2.Name = "Зависимость количества итераций от размерности матрицы (метод верхней релаксации)";
             chart2.ChartType = XlChartType.xlXYScatterSmooth;
 
             // время (итерации)
@@ -358,10 +342,10 @@ namespace PetrovskayaMatrix
                 double pointTm = 0;
                 for (int j = 0; j <= 9; j++)
                 {
-                    pointTm += tmCntIt[i - 1, j];
+                    pointTm += tmCntIt[i , j];
                 }
                 pointTm = pointTm / 10;
-                sheet.Cells[i+21, "A"] = i;
+                sheet.Cells[i+21, "A"] = i+2;
                 sheet.Cells[i+21, "B"] = pointTm;
             }
             //ChartObjects xlCharts = (ChartObjects)sheet.ChartObjects(Type.Missing);
@@ -372,7 +356,7 @@ namespace PetrovskayaMatrix
             Series series3 = seriesCollection3.NewSeries();
             series3.XValues = sheet.get_Range("A22", "A32");
             series3.Values = sheet.get_Range("B22", "B32");
-            series3.Name = "Зависимость времени от размерности матрицы";
+            series3.Name = "Зависимость времени от размерности матрицы (модифицированный метод простой итерации)";
             chart3.ChartType = XlChartType.xlXYScatterSmooth;
 
             // итерации(итерации)
@@ -381,10 +365,10 @@ namespace PetrovskayaMatrix
                 double pointTm = 0;
                 for (int j = 0; j <= 9; j++)
                 {
-                    pointTm += itCntIt[i - 1, j];
+                    pointTm += itCntIt[i , j];
                 }
                 pointTm = pointTm / 10;
-                sheet.Cells[i+21, "L"] = i;
+                sheet.Cells[i+21, "L"] = i+2;
                 sheet.Cells[i+21, "M"] = pointTm;
             }
             //ChartObjects xlCharts = (ChartObjects)sheet.ChartObjects(Type.Missing);
@@ -395,7 +379,7 @@ namespace PetrovskayaMatrix
             Series series4 = seriesCollection4.NewSeries();
             series4.XValues = sheet.get_Range("L22", "L32");
             series4.Values = sheet.get_Range("M22", "M32");
-            series4.Name = "Зависимость количества итераций от размерности матрицы";
+            series4.Name = "Зависимость количества итераций от размерности матрицы (модифицированный метод простой итерации)";
             
             
             chart4.ChartType = XlChartType.xlXYScatterSmooth;
