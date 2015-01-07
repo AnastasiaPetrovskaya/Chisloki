@@ -1,0 +1,74 @@
+﻿<Window x:Class="Lab2.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:y="http://schemas.microsoft.com/winfx/2006/xaml/presentation, http://schemas.microsoft.com/netfx/2007/xaml/presentation"
+        xmlns:oxy="clr-namespace:OxyPlot.Wpf;assembly=OxyPlot.Wpf"
+        xmlns:databinding="clr-namespace:Lab2"
+        Title="Численные методы решения ОДУ" Height="647.5" Width="900" FontWeight="Bold" Topmost="True">
+    <Window.Resources>
+        <databinding:MyConverter x:Key="myConverter"></databinding:MyConverter>
+    </Window.Resources>
+    <Window.Background>
+        <SolidColorBrush Color="#FFFBF8DD"/>
+    </Window.Background>
+    <Grid Margin="0,0,0,-2.5" Height="783" VerticalAlignment="Top">
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Label Grid.Column="0" Grid.Row = "0" Content= "Введите функцию y' = " HorizontalAlignment="Left" VerticalAlignment ="Bottom"  Height="30"  Width="130" Margin="0,0,0,72" FontWeight="Bold"/>
+        <TextBox x:Name="txtFunc" Grid.ColumnSpan="3" TextWrapping="WrapWithOverflow" Margin="144,10,155,0" Height="25" VerticalAlignment="Top" />
+        <Button x:Name="btnParse" Content="Вывести результаты" HorizontalAlignment="Left" Width="144"  Click="btnParse_Click" Margin="46,0,0,78" Height="24" VerticalAlignment="Bottom" Grid.Row="3"/>
+        <oxy:PlotView x:Name="plot1" Margin="10,40,10,71.5" Grid.RowSpan="3" Grid.Row="3" Grid.ColumnSpan="4" BorderThickness="1" />
+        <Label Grid.ColumnSpan="2" Content="Введите начальные условия y(x0) = y0, x0 =" HorizontalAlignment ="Left"  Height="30" VerticalAlignment="Top" Margin="0,45,0,0" Width="279" FontWeight="Bold" />
+        <TextBox x:Name="txtxO" Grid.Column="1" HorizontalAlignment="Right" Height="20" Margin="0,49,113.5,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="55" RenderTransformOrigin="-0.255,0.35" Text="1"/>
+        <Label Content="Определите отрезок" HorizontalAlignment="Left" Margin="0,80,0,0" VerticalAlignment="Top" Width="130" FontWeight="Bold"/>
+        <TextBox x:Name="txtA" Height="20" Margin="162,85,0,0" TextWrapping="Wrap" Text="1" VerticalAlignment="Top" HorizontalAlignment="Left" Width="52"/>
+        <TextBox x:Name="txtB" Grid.Column="1" HorizontalAlignment="Left" Height="20" Margin="30.5,85,0,0" TextWrapping="Wrap" Text="10" VerticalAlignment="Top" Width="52"/>
+        <Label Content="a = " HorizontalAlignment="Left" Margin="130,80,0,0" VerticalAlignment="Top" Width="27" Height="23" FontWeight="Bold"/>
+        <Label Content="b = " Grid.Column="1" HorizontalAlignment="Left" Margin="0.5,80,0,0" VerticalAlignment="Top" Width="32" Height="23" FontWeight="Bold"/>
+        <Label Content=", y0 = " Grid.Column="1" HorizontalAlignment="Left" Height="30" Margin="112.5,45,0,0" VerticalAlignment="Top" Width="42" FontWeight="Bold"/>
+        <TextBox x:Name="txtyO" Grid.Column="1" HorizontalAlignment="Left" Margin="160.5,49,0,43" TextWrapping="Wrap" Text="10" Width="54"/>
+        <RadioButton Content="1го порядка" Visibility="{Binding ElementName=cmbox, ConverterParameter = '0' , Path= SelectedIndex,Converter={StaticResource myConverter },UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" GroupName="M" x:Name="PRFirst"  HorizontalAlignment="Left" Height="20" Margin="20,3,0,0" Grid.Row="2" VerticalAlignment="Top" Width="100" />
+        <RadioButton GroupName="M" x:Name="PRSecond" Visibility="{Binding ElementName=cmbox, ConverterParameter = '0', Path= SelectedIndex,Converter={StaticResource myConverter },UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" Content="2го порядка" HorizontalAlignment="Left" Height="20" Margin="20,23,0,0" Grid.Row="2" VerticalAlignment="Top" Width="100"/>
+        <RadioButton GroupName="M" x:Name="PRThird" Visibility="{Binding ElementName=cmbox,  ConverterParameter = '0', Path= SelectedIndex,Converter={StaticResource myConverter },UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" Content="3го порядка" HorizontalAlignment="Left" Height="20" Margin="20,43,0,0" Grid.Row="2" VerticalAlignment="Top" Width="100" />
+        <RadioButton GroupName="M" x:Name="PRFourth" Visibility="{Binding ElementName=cmbox, ConverterParameter = '0' , Path= SelectedIndex,Converter={StaticResource myConverter },UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" Content="4го порядка" HorizontalAlignment="Left" Height="20" Margin="20,63,0,0" Grid.Row="2" VerticalAlignment="Top" Width="100"/>
+        <Label Content="Предиктор-корректорные &#xD;&#xA;методы Милна" Height="40" Grid.Row="1" VerticalAlignment="Top" Margin="10,75,33.5,0" Grid.RowSpan="2"/>
+        <Button x:Name="butComparePKM" Content="Сравнить все методы" Grid.Column="1" HorizontalAlignment="Left" Height="24" Margin="10.5,10,0,0" Grid.Row="3" VerticalAlignment="Top" Width="172" Click="butComparePKM_Click"/>
+        <Label Grid.ColumnSpan="2" Content="Явный метод Милна" HorizontalAlignment="Left" Height="25" Margin="202,90,0,0" Grid.Row="1" VerticalAlignment="Top" Width="152" Grid.RowSpan="2"/>
+        <RadioButton x:Name="Mfirst" GroupName="M"  Visibility="{Binding ElementName=cmbox, ConverterParameter = '0', Path= SelectedIndex,Converter={StaticResource myConverter },UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" Content="1го порядка" HorizontalAlignment="Left" Height="20" Margin="212,3,0,0" Grid.Row="2" VerticalAlignment="Top" Width="112" Grid.ColumnSpan="2"/>
+        <RadioButton x:Name="Msecond" GroupName="M" Visibility="{Binding ElementName=cmbox, ConverterParameter = '0', Path= SelectedIndex,Converter={StaticResource myConverter },UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" Content="2го порядка" HorizontalAlignment="Left" Height="20" Margin="212,23,0,0" Grid.Row="2" VerticalAlignment="Top" Width="112" Grid.ColumnSpan="2"/>
+        <RadioButton x:Name="Mthird" GroupName="M" Visibility="{Binding ElementName=cmbox, ConverterParameter = '0', Path= SelectedIndex,Converter={StaticResource myConverter },UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" Content="3го порядка" HorizontalAlignment="Left" Height="20" Margin="212,43,0,0" Grid.Row="2" VerticalAlignment="Top" Width="112" Grid.ColumnSpan="2"/>
+        <RadioButton x:Name="Mfourth" GroupName="M" Visibility="{Binding ElementName=cmbox, ConverterParameter = '0', Path= SelectedIndex,Converter={StaticResource myConverter },UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"  Content="4го порядка" HorizontalAlignment="Left" Height="20" Margin="212,63,0,0" Grid.Row="2" VerticalAlignment="Top" Width="112" Grid.ColumnSpan="2"/>
+        <ComboBox x:Name="cmbox" Height="27" Margin="150,10,0,0" VerticalAlignment="Top" SelectedIndex="0" Grid.Row="1" Grid.ColumnSpan="2" HorizontalAlignment="Left" Width="90" SelectionChanged="cmbox_SelectionChanged">
+            <ComboBoxItem Content="Решить"/>
+            <ComboBoxItem Content="Сравнить"/>
+        </ComboBox>
+        <CheckBox Content="1го порядка" Visibility="{Binding ElementName=cmbox, Path= SelectedIndex,Converter={StaticResource myConverter }, ConverterParameter = '1' ,UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" x:Name="PRFirstCB"  HorizontalAlignment="Left" Height="20" Margin="20,3,0,0" Grid.Row="2" VerticalAlignment="Top" Width="100" />
+        <CheckBox Content="2го порядка" Visibility="{Binding ElementName=cmbox, Path= SelectedIndex,Converter={StaticResource myConverter }, ConverterParameter = '1' ,UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" x:Name="PRSecondCB"  HorizontalAlignment="Left" Height="20" Margin="20,23,0,0" Grid.Row="2" VerticalAlignment="Top" Width="100" />
+        <CheckBox Content="3го порядка" Visibility="{Binding ElementName=cmbox, Path= SelectedIndex,Converter={StaticResource myConverter }, ConverterParameter = '1' ,UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" x:Name="PRThirdCB"  HorizontalAlignment="Left" Height="20" Margin="20,43,0,0" Grid.Row="2" VerticalAlignment="Top" Width="100" />
+        <CheckBox Content="4го порядка" Visibility="{Binding ElementName=cmbox, Path= SelectedIndex,Converter={StaticResource myConverter }, ConverterParameter = '1' ,UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" x:Name="PRFourthCB"  HorizontalAlignment="Left" Height="20" Margin="20,63,0,0" Grid.Row="2" VerticalAlignment="Top" Width="100" />
+        <CheckBox x:Name="MfirstCB"   Visibility="{Binding ElementName=cmbox, ConverterParameter = '1', Path= SelectedIndex,Converter={StaticResource myConverter },UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" Content="1го порядка" Grid.Column="1" HorizontalAlignment="Left" Height="20" Margin="0.5,3,0,0" Grid.Row="2" VerticalAlignment="Top" Width="100"/>
+        <CheckBox x:Name="MsecondCB"   Visibility="{Binding ElementName=cmbox, ConverterParameter = '1', Path= SelectedIndex,Converter={StaticResource myConverter },UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" Content="2го порядка" Grid.Column="1" HorizontalAlignment="Left" Height="20" Margin="0.5,23,0,0" Grid.Row="2" VerticalAlignment="Top" Width="100"/>
+        <CheckBox x:Name="MthirdCB"   Visibility="{Binding ElementName=cmbox, ConverterParameter = '1', Path= SelectedIndex,Converter={StaticResource myConverter },UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" Content="3го порядка" Grid.Column="1" HorizontalAlignment="Left" Height="20" Margin="0.5,43,0,0" Grid.Row="2" VerticalAlignment="Top" Width="100"/>
+        <CheckBox x:Name="MfourthCB"   Visibility="{Binding ElementName=cmbox, ConverterParameter = '1', Path= SelectedIndex,Converter={StaticResource myConverter },UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" Content="4го порядка" Grid.Column="1" HorizontalAlignment="Left" Height="20" Margin="0.5,63,0,0" Grid.Row="2" VerticalAlignment="Top" Width="100"/>
+        <Label Content="Выбере режим работы" HorizontalAlignment="Left" Height="30" Margin="0,10,0,0" Grid.Row="1" VerticalAlignment="Top" Width="150"/>
+        <Label Content="Выберете метод для нахождения первых точек" HorizontalAlignment="Left" Height="30" Margin="0,45,0,0" Grid.Row="1" VerticalAlignment="Top" Width="306" Grid.ColumnSpan="2"/>
+        <ComboBox x:Name="cmbboxMethod" Grid.Column="1" HorizontalAlignment="Left" Height="27" Margin="82.5,45,0,0" Grid.Row="1" VerticalAlignment="Top" Width="152" SelectedIndex="0" Grid.ColumnSpan="2">
+            <ComboBoxItem Content="метод Эйлера"/>
+            <ComboBoxItem Content="метод Рунге-Кутты"/>
+        </ComboBox>
+
+    </Grid>
+</Window>

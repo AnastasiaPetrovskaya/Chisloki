@@ -9,7 +9,7 @@ namespace Lab2
     class MathExpression
     {
         enum Operation { PLUS, MINUS, MULT, DIV, POW };
-        enum Type { VAR, CONST, FUNC, OPERATION, NONE };
+        enum Type { VARX,VARY, CONST, FUNC, OPERATION, NONE };
         enum Func { SIN, COS, LN, EXP };
 
         private MathExpression left;
@@ -58,7 +58,9 @@ namespace Lab2
             if ((s.Length > ind + 3) && (s.Substring(ind,3) == "sin" || s.Substring(ind,3) == "cos" || s.Substring(ind,3) =="log"))
                 return Type.FUNC;
             if (s[ind] == 'x')
-                return Type.VAR;
+                return Type.VARX;
+            if (s[ind] == 'y')
+                return Type.VARY;
             if ((int)s[ind] >= (int)'0' && (int)s[ind] <= (int)'9')
                 return Type.CONST;
             if (s[ind] == 'e' || s[ind] == 'E')
@@ -193,33 +195,35 @@ namespace Lab2
        }
 
 
-       public double getValue(double var)
+       public double getValue(double varx, double vary)
        {
            if (t == Type.CONST)
                return cons;
-           else if (t == Type.VAR)
-               return var;
+           else if (t == Type.VARX)
+               return varx;
+           else if (t == Type.VARY)
+               return vary;
            else if (t == Type.OPERATION)
            {
                if (op == Operation.PLUS)
-                   return left.getValue(var) + right.getValue(var);
+                   return left.getValue(varx, vary) + right.getValue(varx, vary);
                else if (op == Operation.MINUS)
-                   return left.getValue(var) - right.getValue(var);
+                   return left.getValue(varx, vary) - right.getValue(varx, vary);
                else if (op == Operation.MULT)
-                   return left.getValue(var) * right.getValue(var);
+                   return left.getValue(varx, vary) * right.getValue(varx, vary);
                else if (op == Operation.DIV)
-                   return left.getValue(var) / right.getValue(var);
+                   return left.getValue(varx, vary) / right.getValue(varx, vary);
                else if (op == Operation.POW)
-                   return Math.Pow(left.getValue(var), right.getValue(var));
+                   return Math.Pow(left.getValue(varx, vary), right.getValue(varx, vary));
            }
            else if (t == Type.FUNC)
            {
                if (f == Func.SIN)
-                   return Math.Sin(right.getValue(var));
+                   return Math.Sin(right.getValue(varx, vary));
                else if (f == Func.COS)
-                   return Math.Cos(right.getValue(var));
+                   return Math.Cos(right.getValue(varx, vary));
                else if (f == Func.LN)
-                   return Math.Log(right.getValue(var));
+                   return Math.Log(right.getValue(varx, vary));
            }
            throw new Exception("Невозможно распознать функцию");
        }
